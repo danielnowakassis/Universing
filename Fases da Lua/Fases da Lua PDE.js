@@ -17,6 +17,7 @@ void draw() {
     stars[i].show();
   }
 }
+<<<<<<< HEAD
 
 class Star {
     float x;
@@ -63,3 +64,5 @@ class Star {
       
     }
   }
+=======
+>>>>>>> 82e4ab40af751e6bfb0a5b1fa50584aa42b8b39c
