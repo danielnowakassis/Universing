@@ -203,6 +203,9 @@ fill(0, 0, 0, alpha);
   text("Pontificia Universidade Católica do Paraná", width/2, height/2+textCounter);
   textCounter+=FONT_SIZE_SMALL;
   text("Bacharelado em Ciência da Computação", width/2, height/2+textCounter);
+  popMatrix();
+  hint(ENABLE_DEPTH_TEST);
+  if (alpha==0) { state=State.LOADED; } // stop drawing text
 }
 float light=0.0025f;
 float LIGHT_DELTA=0.001f;
