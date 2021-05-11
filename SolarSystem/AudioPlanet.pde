@@ -11,7 +11,7 @@ abstract class DrawableSphere {
 
 class AudioPlanet extends DrawableSphere
 {
-  UGen ugen;  // SoundGenerator = Noise, Oscil, LiveInput, FilePlayer, Sampler, Vocoder
+   // SoundGenerator = Noise, Oscil, LiveInput, FilePlayer, Sampler, Vocoder
   MoogFilter moog;  //filter
   Delay del;
   void draw() {}

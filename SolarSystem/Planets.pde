@@ -15,15 +15,15 @@ class PlanetMercury extends Planet {
     setSpeed(47.4);
     setSize(4879);
     setRotation(DAY_ROT/58);
-    ugen=new Oscil(4879, 0.3, Waves.SINE);
+
     moog = new MoogFilter(4879, 0.5);
     del=new Delay(0.4, 0.5, true, true);
     chopper = new GranulateRandom(glmin, slmin, flmin, glmax, slmax, flmax);
-    ugen.patch(moog).patch(gain).patch(balance).patch(chopper).patch(del).patch(audioOutput);
+
   }
   void move(){
     super.move();
-    ((Oscil)ugen).setFrequency(8*(location.x-earth.location.x));
+
     slmin=this.location.x/1000;
     slmax=slmin+0.02;
     chopper.setAllTimeParameters(glmin, slmin, flmin, glmax, slmax, flmax);
@@ -31,7 +31,7 @@ class PlanetMercury extends Planet {
     dB=0-dB/SCALE_GAIN;
     gain.setValue(dB);
     //System.err.println("Mercury dB: "+dB);
-    float f=map(location.x, -rad, rad, -1, 1);
+
     ///println("Mercury balance: "+f);
     balance.setBalance(location.x/212);
      //System.err.println(""+earth.location.x);
@@ -53,7 +53,7 @@ class PlanetVenus extends Planet {
     setSpeed(35.0);
     setSize(12104);
     setRotation(-DAY_ROT/243);
-    ugen=new Oscil(12104, 0.2, Waves.TRIANGLE);
+
     //moog = new MoogFilter(1200, 0.5);
     del=new Delay(0.6, 0.6, true, false);
     flange = new Flanger( 1,     // delay length in milliseconds ( clamped to [0,100] )
@@ -64,12 +64,12 @@ class PlanetVenus extends Planet {
                         0.5f    // amount of wet signal ( clamped to [0,1] )
                        );
 
-    ugen.patch(gain).patch(balance).patch(del).patch(flange).patch(audioOutput);
+
   }
   void move(){
     super.move();
-    ((Oscil)ugen).setFrequency(8*location.x);
-    ((Oscil)ugen).setPhase(8*location.y);
+
+
     balance.setBalance(location.y/(_size/SCALE_ALL));
     float dB=distanceFrom(earth);
     dB=0-dB/SCALE_GAIN;
@@ -116,13 +116,13 @@ class PlanetMars extends Planet {
     setSpeed(24.1);
     setSize(6792);
     setRotation(1);
-    ugen=new Oscil(Frequency.ofPitch("G2"), 0.5, Waves.SQUARE);
+
     oscil2=new Oscil(Frequency.ofPitch("Bb2"), 0.2, Waves.SQUARE);
     oscil3=new Oscil(Frequency.ofPitch("D2"), 0.1, Waves.SQUARE);
     // add a low pass filter at the frequency which matches Mars' size
     moog = new MoogFilter(200, 0.5, MoogFilter.Type.LP);
     del=new Delay(0.2, 0.2, false, true);
-    ugen.patch(oscil2).patch(oscil3).patch(moog).patch(gain).patch(balance).patch(del).patch(audioOutput);
+
   }
   
   void move(){
@@ -132,7 +132,7 @@ class PlanetMars extends Planet {
     gain.setValue(dB);
     //System.err.println("dB: "+dB);
 
-    ((Oscil)ugen).setFrequency(Frequency.ofPitch("G1").asHz()+(location.x/rad));
+
     oscil2.setFrequency(Frequency.ofPitch("Bb1").asHz()+sin(ts.rotationY));
     oscil3.setFrequency(Frequency.ofPitch("D1").asHz()+location.x/rad);
     //moog.frequency.setLastValue(this.location.y*8f);
@@ -152,16 +152,16 @@ class PlanetJupiter extends Planet {
     setSpeed(13.1);
     setSize(142984);
     setRotation(DAY_ROT/0.4);
-    ugen=new Oscil(779, 0.2, Waves.SAW);
+
     moog = new MoogFilter(1200, 0.5);
     bc=new BitCrush();
     del=new Delay(0.3, 0.3, true, true);
-    ugen.patch(moog).patch(balance).patch(del).patch(gain).patch(audioOutput);
+
   }
   void move(){
     super.move();
-    ((Oscil)ugen).setPhase(8*location.x);
-    ((Oscil)ugen).setFrequency(770+distanceFrom(earth));
+
+
     //moog.frequency.setLastValue(this.location.y*8f);
     balance.setBalance(location.y/(_size/SCALE_ALL));
     float f=map(location.x, -400, 400, 0, 16);
@@ -185,12 +185,12 @@ class PlanetSaturn extends Planet {
    private static final int SATURN_RINGS_ALPHA=5;
   PlanetSaturn(Sun a){
     super(a, 1433, "Saturn");
-    ugen=new Noise();
-    ((Noise)ugen).setTint(Noise.Tint.PINK);
-    ((Noise)ugen).amplitude.setLastValue(0.2);
+
+
+
     moog = new MoogFilter(1000, 0.5, MoogFilter.Type.BP);
     del=new Delay(0.4, 0.4, true, true);
-    ugen.patch(moog).patch(del).patch(gain).patch(balance).patch(audioOutput);
+
     setRotation(DAY_ROT/0.44);
     setSpeed(9.7);
     setSize(120536);
@@ -246,14 +246,14 @@ class PlanetUranus extends Planet {
     setSpeed(6.8);
     setSize(51118);
     setRotation(-DAY_ROT/0.7);
-    ugen = new FilePlayer(minim.loadFileStream("data/test.mp3"));
+
   // and then we'll tell the file player to loop indefinitely
-    ((FilePlayer)ugen).loop();
+
     tr=new TickRate(1.f);
     tr.setInterpolation(true);
     del=new Delay(0.8, 0.1, false, true);
     gain.setValue(-0.3);
-    ugen.patch(tr).patch(gain).patch(balance).patch(del).patch(audioOutput);
+
   }
   void move(){
     super.move();
@@ -294,7 +294,7 @@ String notes[] = {
     super.move();
   //  System.out.println("Neptune: play note: "+ts.rotationY);
     if ((int)ts.rotationY==1){
-      audioOutput.playNote(1, 0.6, new NeptuneInstrument(270));
+
     //System.gc();
 
     }
@@ -334,7 +334,7 @@ String notes[] = {
     // attach the oscil to the output so it makes sound
     //wave.patch(audioOutput);
     adsr.noteOn();
-    adsr.patch(moog).patch(del).patch(audioOutput);
+
   }
   
   // this is called by the sequencer when the instrument should
@@ -342,7 +342,7 @@ String notes[] = {
   void noteOff()
   {
     //wave.unpatch(audioOutput);
-    adsr.unpatchAfterRelease(audioOutput);
+
     adsr.noteOff();
   }
 }

@@ -39,7 +39,7 @@ CameraMover cameraMover;  // moves the camera around
 //NetAddress na;
 // Minim audio
 Minim minim;
-AudioOutput audioOutput;
+AudioPlayer player;
 AudioRecorder recorder; //to record the audio
 final static String RECORDING_FILE="record.wav";
 
@@ -136,10 +136,12 @@ void setup(){
   // Minim sound
   if (USE_MINIM){
     minim = new Minim(this);
+    player = minim.loadFile("test.mp3");
+    player.play();
     // get a line out from Minim, default sample rate is 44100, default bit depth is 16
-    audioOutput = minim.getLineOut(Minim.STEREO, 2048);
-    audioOutput.shiftGain(-120, 0, 10000); //fade sound in
-    recorder=minim.createRecorder(audioOutput, RECORDING_FILE);
+
+
+
     //recorder.beginRecord();
   }
   // TODO:
@@ -182,7 +184,7 @@ private void drawIntro(){
   perspective();
   noLights();
  
-  fill(0, 0, 0, alpha);
+fill(0, 0, 0, alpha);
   stroke(0, 0, 0, alpha);
   rect(0, 0, width, height);
   fill(255, 255, 255, alpha);
@@ -191,23 +193,16 @@ private void drawIntro(){
   textSize(FONT_SIZE_BIG);
   textFont(theFont);
   int textCounter=0;
-  text("Music of the Spheres", width/2, height/2);
+  text("Universing", width/2, height/2);
   textSize(FONT_SIZE);
   textFont(theOtherFont);
   textCounter+=36;
-  text("By Jerry Padfield", width/2, height/2+textCounter);
+  text("Daniel Nowak, Danilo Almeida e Leandro Curau", width/2, height/2+textCounter);
   textCounter+=28;
   textSize(FONT_SIZE_SMALL);
-  text("University of the West of Scotland", width/2, height/2+textCounter);
+  text("Pontificia Universidade Católica do Paraná", width/2, height/2+textCounter);
   textCounter+=FONT_SIZE_SMALL;
-  text("MA Creative Media Practice", width/2, height/2+textCounter);
-  textCounter+=(FONT_SIZE_SMALL*3);
-  text("CMPG11006 Creative Media Practice Assignment 2017", width/2, height/2+textCounter);
-  textCounter +=FONT_SIZE_SMALL;
-  text("jerrypadfield.co.uk", width/2, height/2+textCounter);
-  popMatrix();
-  hint(ENABLE_DEPTH_TEST);
-  if (alpha==0) { state=State.LOADED; } // stop drawing text
+  text("Bacharelado em Ciência da Computação", width/2, height/2+textCounter);
 }
 float light=0.0025f;
 float LIGHT_DELTA=0.001f;
@@ -260,12 +255,12 @@ void draw(){
     pushMatrix();
     camera();
     perspective();
-    for (int i = 0; i < audioOutput.bufferSize()/BUFFER_SCALE-1; i++)
+
     {
-      float x1 = map(i, 0, audioOutput.bufferSize()/BUFFER_SCALE, 0, width);
-      float x2 = map(i+1, 0, audioOutput.bufferSize()/BUFFER_SCALE, 0, width);
-      line(x1, height-150 + audioOutput.left.get(i)*50, x2, height-150 + audioOutput.left.get(i+1)*50);
-      line(x1, height-50 + audioOutput.right.get(i)*50, x2, height-50 + audioOutput.right.get(i+1)*50);
+
+
+
+
     }
     popMatrix();
     hint(ENABLE_DEPTH_TEST);
@@ -352,7 +347,7 @@ void stop(){
       recorder.endRecord();
       recorder.save();
     }
-    audioOutput.close();
+
     minim.stop();
   }
   super.stop();
